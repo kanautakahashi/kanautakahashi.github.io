@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kanau Takahashi</title>
+<meta name="description" content="Kanau Takahashi — from Himeji to the world. Finance student at Monash University Malaysia.">
+<meta property="og:title" content="Kanau Takahashi">
+<meta property="og:description" content="From Himeji to the world. Finance student at Monash University Malaysia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #0b1f44;
+    --muted: #4a5878;
+    --dim: #8a94a8;
+    --line: #e3e7ef;
+    --card: #f3f5f9;
+    --accent: #1f4fa3;
+    --accent2: #0b1f44;
+    --gutter: clamp(20px, 5vw, 64px);
+    --max: 1120px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  html[data-lang="ja"] body { font-family: "Noto Sans JP", "Inter", -apple-system, "Hiragino Sans", sans-serif; }
+  html[data-lang="en"] .ja, html[data-lang="ja"] .en { display: none !important; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  h2, h3 { text-wrap: balance; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding-inline: var(--gutter); }
+
+  /* Nav */
+  nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: rgba(255,255,255,.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(11,31,68,.08);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 52px; }
+  .brand { font-weight: 600; font-size: 15px; letter-spacing: -.01em; text-decoration: none; }
+  .nav-links { display: flex; gap: 28px; font-size: 13px; color: var(--muted); }
+  .nav-links a { text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--fg); }
+  .lang { display: flex; background: var(--card); border-radius: 999px; padding: 3px; font-size: 12px; }
+  .lang button {
+    border: 0; background: transparent; color: var(--muted); cursor: pointer;
+    padding: 5px 12px; border-radius: 999px; font: inherit; font-weight: 600; transition: all .25s;
+  }
+  .lang button[aria-pressed="true"] { background: var(--fg); color: #fff; }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  /* Hero: the Earth rising behind the name */
+  .hero {
+    height: 100vh; min-height: 600px; display: grid; place-items: center; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-inner { position: relative; padding-inline: var(--gutter); margin-top: -18vh; will-change: transform, opacity; }
+  .eyebrow { color: var(--accent); font-weight: 600; font-size: clamp(14px, 1.6vw, 19px); margin: 0 0 14px; }
+  .hero h1 {
+    font-size: clamp(52px, 11vw, 136px); line-height: 1; letter-spacing: -.045em; margin: 0; font-weight: 800;
+    background: linear-gradient(180deg, #0b1f44 30%, #1f4fa3);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero .jname { font-size: clamp(18px, 2.4vw, 26px); color: var(--muted); margin-top: 14px; letter-spacing: .2em; font-weight: 500; }
+  .hero p.lead { text-shadow: 0 0 20px #fff, 0 0 10px #fff; font-size: clamp(19px, 2.6vw, 28px); max-width: 760px; margin: 28px auto 0; font-weight: 500; line-height: 1.4; letter-spacing: -.01em; }
+
+  /* Word-by-word statement */
+  .statement { height: 240vh; position: relative; }
+  .statement .sticky { position: sticky; top: 0; height: 100vh; display: grid; place-items: center; }
+  .statement p {
+    font-size: clamp(30px, 5.6vw, 72px); font-weight: 700; line-height: 1.15; letter-spacing: -.03em;
+    max-width: 1000px; margin: 0; padding-inline: var(--gutter);
+  }
+  html[data-lang="ja"] .statement p { letter-spacing: 0; line-height: 1.35; font-size: clamp(28px, 5vw, 64px); }
+  .statement .w { opacity: .15; transition: opacity .15s linear; }
+  .statement .w.on { opacity: 1; }
+  .statement .hl.on { color: var(--accent); }
+
+  /* Story: sticky globe, chapters scroll over it */
+  .story { position: relative; }
+  .stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .progress { position: absolute; left: var(--gutter); bottom: calc(32px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; }
+  .progress i { width: 18px; height: 3px; border-radius: 2px; background: var(--line); transition: background .3s, width .3s; }
+  .progress i.on { background: var(--fg); width: 36px; }
+  .chapters { position: relative; margin-top: -100vh; }
+  .chapter {
+    height: 100vh; display: flex; align-items: center; justify-content: flex-end;
+    padding-inline: var(--gutter); max-width: 1320px; margin: 0 auto;
+  }
+  .chapter .card {
+    width: min(46%, 540px); opacity: .0; transform: translateY(30px);
+    transition: opacity .6s, transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .chapter.active .card { opacity: 1; transform: none; }
+  .chapter .coord { font-size: 13px; color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+  .chapter .place {
+    font-size: clamp(56px, 7vw, 96px); font-weight: 800; letter-spacing: -.05em; line-height: 1; margin: 8px 0 18px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .chapter h3 { font-size: clamp(24px, 2.8vw, 34px); line-height: 1.15; letter-spacing: -.025em; margin: 0 0 14px; }
+  html[data-lang="ja"] .chapter h3 { letter-spacing: 0; line-height: 1.35; }
+  .chapter p { font-size: clamp(16px, 1.35vw, 18px); color: var(--muted); margin: 0 0 12px; line-height: 1.7; }
+  .chapter strong { color: var(--fg); font-weight: 600; }
+  .chapter .photo { border-radius: 16px; overflow: hidden; aspect-ratio: 16 / 9; margin-bottom: 18px; background: var(--card); }
+  .chapter .photo img { width: 100%; height: 100%; object-fit: cover; }
+  .chapter .lesson {
+    margin: 16px 0 0; padding-left: 14px; border-left: 2px solid var(--accent);
+    color: var(--fg); font-weight: 600;
+  }
+  @media (max-width: 860px) {
+    .chapter { align-items: flex-end; justify-content: center; padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+    .chapter .card {
+      width: 100%; background: rgba(255,255,255,.86); border: 1px solid rgba(11,31,68,.08); box-shadow: 0 10px 40px rgba(11,31,68,.12);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px; padding: 20px 20px;
+    }
+    .chapter .place { font-size: 48px; margin: 4px 0 10px; }
+    .chapter .photo { aspect-ratio: 3 / 1; margin-bottom: 12px; }
+    .chapter p { font-size: 15.5px; line-height: 1.65; }
+    .progress { bottom: auto; top: calc(68px + env(safe-area-inset-top, 0px)); }
+  }
+
+  /* Shared */
+  section.block { padding-block: clamp(96px, 16vh, 160px); }
+  .kicker { color: var(--accent); font-weight: 600; font-size: 15px; margin: 0 0 12px; }
+  h2.big { font-size: clamp(40px, 7vw, 88px); line-height: 1.02; letter-spacing: -.04em; margin: 0 0 24px; font-weight: 800; }
+  html[data-lang="ja"] h2.big { letter-spacing: -.01em; line-height: 1.15; font-size: clamp(34px, 6vw, 72px); }
+
+  /* What I carry */
+  .carry { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); margin-top: 48px; }
+  .carry div { padding: 28px 24px 0 0; }
+  .carry .n { color: var(--dim); font-size: 13px; letter-spacing: .1em; }
+  .carry h4 { font-size: clamp(22px, 2.4vw, 28px); letter-spacing: -.02em; margin: 8px 0 8px; line-height: 1.25; }
+  .carry p { margin: 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
+  @media (max-width: 760px) { .carry { grid-template-columns: 1fr; } .carry div { padding-bottom: 8px; } }
+
+  /* Now */
+  .feature { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(32px, 6vw, 80px); align-items: center; margin-top: 56px; }
+  .feature .media { border-radius: 28px; overflow: hidden; box-shadow: 0 40px 100px rgba(11,31,68,.22); }
+  .feature h3 { font-size: clamp(28px, 3.8vw, 44px); letter-spacing: -.03em; line-height: 1.15; margin: 0 0 18px; }
+  .feature p.body { font-size: clamp(17px, 1.5vw, 19px); color: var(--muted); line-height: 1.7; margin: 0 0 14px; }
+  .feature p.body strong { color: var(--fg); font-weight: 600; }
+  blockquote {
+    margin: 24px 0 0; padding: 22px 24px; background: var(--card); border-radius: 20px;
+    font-size: 16.5px; line-height: 1.6; color: var(--fg);
+  }
+  blockquote cite { display: block; margin-top: 10px; color: var(--dim); font-style: normal; font-size: 14px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; font-size: 14px; color: var(--muted); }
+  .minis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 64px; }
+  .mini { background: var(--card); border-radius: 24px; padding: 30px; }
+  .mini.ig { background: radial-gradient(120% 100% at 100% 0%, rgba(31,79,163,.16), transparent 60%), var(--card); }
+  .mini .label { color: var(--accent); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+  .mini .label a { text-transform: none; letter-spacing: 0; }
+  .mini h4 { margin: 0 0 8px; font-size: 21px; letter-spacing: -.02em; line-height: 1.3; }
+  .mini p { margin: 0; color: var(--muted); font-size: 15.5px; line-height: 1.65; }
+  @media (max-width: 860px) {
+    .feature { grid-template-columns: 1fr; }
+    .minis { grid-template-columns: 1fr; }
+  }
+
+  /* Education */
+  .edu { display: grid; grid-template-columns: 1.25fr 1fr; gap: 20px; margin-top: 56px; align-items: start; }
+  .school { background: var(--card); border-radius: 28px; overflow: hidden; }
+  .school .pic { aspect-ratio: 16 / 9; }
+  .school .pic img { width: 100%; height: 100%; object-fit: cover; }
+  .school .body { padding: 28px 30px 32px; }
+  .school .status { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; background: var(--fg); color: #fff; margin-bottom: 14px; }
+  .school .status.past { background: transparent; color: var(--muted); border: 1px solid #c9d1e0; }
+  .school h3 { font-size: clamp(24px, 2.6vw, 32px); letter-spacing: -.02em; line-height: 1.2; margin: 0 0 6px; }
+  .school .deg { color: var(--fg); font-weight: 500; margin: 0; }
+  .school .when { color: var(--dim); font-size: 14px; margin: 4px 0 20px; }
+  .school h4 { font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  .school ul { margin: 0; padding: 0; list-style: none; }
+  .school li { position: relative; padding-left: 20px; color: var(--muted); margin-bottom: 9px; line-height: 1.6; }
+  .school li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .school p.note { color: var(--muted); margin: 0; line-height: 1.7; }
+  @media (max-width: 860px) { .edu { grid-template-columns: 1fr; } }
+
+  .glance { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 72px; }
+  .glance div { border-top: 1px solid var(--line); padding-top: 18px; }
+  .glance .k { color: var(--dim); font-size: 13px; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+  .glance .v { font-size: 16px; line-height: 1.6; }
+  .glance .v small { color: var(--muted); font-size: 14px; }
+  @media (max-width: 760px) { .glance { grid-template-columns: 1fr; } }
+
+  /* Contact */
+  .contact { text-align: center; }
+  .contact h2.big { margin-inline: auto; max-width: 900px; }
+  .contact .sub { font-size: clamp(18px, 2.2vw, 22px); color: var(--muted); margin: 0 auto; max-width: 640px; }
+  .btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 40px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+    padding: 15px 26px; border-radius: 999px; font-weight: 600; font-size: 16px; transition: transform .2s, background .2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.primary { background: var(--fg); color: #fff; }
+  .btn.ghost { border: 1px solid #c9d1e0; }
+  .btn.ghost:hover { background: var(--card); }
+  .email-text { color: var(--dim); margin-top: 22px; font-size: 14px; word-break: break-all; }
+  footer { border-top: 1px solid var(--line); padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px)); color: var(--dim); font-size: 13px; }
+  footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: .1s; } .reveal.d2 { transition-delay: .2s; } .reveal.d3 { transition-delay: .3s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .statement { height: auto; } .statement .sticky { position: static; height: auto; padding-block: 120px; }
+    .statement .w { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="en">Kanau Takahashi</span><span class="ja">高橋 叶</span></a>
+    <div class="nav-links">
+      <a href="#story"><span class="en">Story</span><span class="ja">ストーリー</span></a>
+      <a href="#education"><span class="en">Education</span><span class="ja">学歴</span></a>
+      <a href="#now"><span class="en">Now</span><span class="ja">いま</span></a>
+      <a href="#contact"><span class="en">Contact</span><span class="ja">連絡先</span></a>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-set-lang="ja" aria-pressed="false">日本語</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <canvas id="heroGlobe" aria-hidden="true"></canvas>
+  <div class="hero-inner" id="heroInner">
+    <p class="eyebrow">
+      <span class="en">From Himeji to the world</span>
+      <span class="ja">姫路から、世界へ。</span>
+    </p>
+    <h1>Kanau Takahashi</h1>
+    <div class="jname">高橋 叶</div>
+    <p class="lead">
+      <span class="en">Finance student at Monash University Malaysia.<br>I grow through the people I meet.</span>
+      <span class="ja">Monash University Malaysia でファイナンスを学ぶ大学生。<br>出会った人の数だけ、成長してきた。</span>
+    </p>
+  </div>
+</header>
+
+<!-- Statement -->
+<section class="statement" id="statement">
+  <div class="sticky">
+    <p class="en" data-split="words">I didn't wait for the world to come to me. <b class="hl">I went out to meet it.</b></p>
+    <p class="ja" data-split="chars">世界が来るのを待たなかった。<br><b class="hl">自分から、会いに行った。</b></p>
+  </div>
+</section>
+
+<!-- Story: the globe turns to each place as you scroll -->
+<section class="story" id="story">
+  <div class="stage">
+    <canvas id="storyGlobe" aria-hidden="true"></canvas>
+    <div class="progress" id="progress"></div>
+  </div>
+  <div class="chapters">
+    <article class="chapter" data-lon="134.69" data-lat="34.82" data-name="Himeji" data-countries="392">
+      <div class="card">
+        <div class="coord">01 · 34.8°N 134.7°E</div>
+        <div class="place">Himeji</div>
+        <h3><span class="en">A big dream, and no map.</span><span class="ja">夢はあった。地図はなかった。</span></h3>
+        <p><span class="en">I grew up in Himeji, Hyogo, dreaming of going out into the world and becoming someone who could make an impact globally. But I had no foreign friends — and no idea where to start.</span><span class="ja">兵庫県姫路市で育った。世界に出て、グローバルに活躍できる人になりたいと憧れていた。でも、外国人の友達は一人もいなかったし、何から始めればいいかもわからなかった。</span></p>
+      </div>
+    </article>
+
+    <article class="chapter" data-lon="-118.24" data-lat="34.05" data-name="Los Angeles" data-countries="840">
+      <div class="card">
+        <div class="coord">02 · <span class="en">Los Angeles · Summer 2022</span><span class="ja">ロサンゼルス · 2022年 夏</span></div>
+        <div class="place">USA</div>
+        <h3><span class="en">The frustration that started everything.</span><span class="ja">すべては、悔しさから始まった。</span></h3>
+        <p><span class="en">America was the country I'd always pictured, so I joined a summer camp there. I couldn't really speak English, and it hit me: <strong>"If I stay like this, I'll never make it in the world."</strong> The Japanese friends I met there are still some of my closest.</span><span class="ja">留学といえばアメリカ。調べるうちに行きたくなり、サマーキャンプに参加した。でも英語がまともに話せず、<strong>「このままじゃ世界で活躍できない」</strong>と悔しかった。そこで出会った日本人の仲間とは、今も連絡を取り合う大切な友達だ。</span></p>
+        <p class="lesson"><span class="en">One meeting can change everything.</span><span class="ja">ひとつの出会いが、すべてを変える。</span></p>
+      </div>
+    </article>
+
+    <article class="chapter" data-lon="139.69" data-lat="35.68" data-name="Tokyo" data-countries="392">
+      <div class="card">
+        <div class="photo"><img src="assets/keio.webp" alt="Keio University, Mita campus" width="1200" height="630" loading="lazy"></div>
+        <div class="coord">03 · <span class="en">Tokyo · Keio University · 2024</span><span class="ja">東京 · 慶應義塾大学 · 2024年</span></div>
+        <div class="place">Tokyo</div>
+        <h3><span class="en">At first, I couldn't even start a conversation.</span><span class="ja">最初は、話しかけることすらできなかった。</span></h3>
+        <p><span class="en">In Tokyo, where I studied at Keio University, I went looking for the world myself — international events, cafés, the app Trip.bff. At first I was too scared to speak. But I kept showing up, learned <strong>how to care and read the room</strong>, and started hosting my own events. Friends in <strong>more than 10 countries</strong> followed.</span><span class="ja">慶應義塾大学で学んだ東京で、国際交流イベントやカフェ、アプリ「Trip.bff」を使って自分から世界を探しに行った。最初は怖くて話せなかったが、通い続けるうちに<strong>人を思いやり、場を読むこと</strong>を覚え、自らイベントを主催するまでに。気づけば<strong>10カ国以上</strong>に友人ができていた。</span></p>
+      </div>
+    </article>
+
+    <article class="chapter" data-lon="10.45" data-lat="51.17" data-name="Germany" data-countries="276,250,528,724" data-extra="2.35,48.86;4.9,52.37;-3.7,40.42">
+      <div class="card">
+        <div class="coord">04 · <span class="en">Solo backpacking · Age 18</span><span class="ja">一人旅 · 18歳</span></div>
+        <div class="place">Europe</div>
+        <h3><span class="en">Everyone started dancing.</span><span class="ja">みんなが、踊り出した。</span></h3>
+        <p><span class="en">At 18, I backpacked alone through Germany, France, the Netherlands and Spain. In Germany, a street band began to play — and people all around me just started dancing, not caring who was watching, completely in the moment.</span><span class="ja">18歳のとき、ドイツ・フランス・オランダ・スペインを一人で旅した。ドイツで路上バンドが演奏を始めると、周りの人たちが一斉に踊り出した。人目を気にせず、ただ今を楽しんでいた。</span></p>
+        <p><span class="en">People there seemed to truly enjoy their own time. I learned to enjoy mine.</span><span class="ja">ヨーロッパの人たちは、自分の時間を心から楽しんでいるように見えた。僕も、一人の時間を楽しむことを覚えた。</span></p>
+        <p class="lesson"><span class="en">Enjoy the moment you're in.</span><span class="ja">今この瞬間を、楽しむ。</span></p>
+      </div>
+    </article>
+
+    <article class="chapter" data-lon="-3.7" data-lat="40.42" data-name="Spain" data-countries="724,840">
+      <div class="card">
+        <div class="coord">05 · <span class="en">Friends across borders</span><span class="ja">国境を越えた友情</span></div>
+        <div class="place">Spain</div>
+        <h3><span class="en">One message. Friends for life.</span><span class="ja">一通のメッセージが、親友になった。</span></h3>
+        <p><span class="en">My two best friends in Spain — and two in America — started with a message I sent on Trip.bff. When I visited Spain, they made sure I knew I was loved: they celebrated my birthday together, looked after me, and always brought me into the conversation, even when we were all in a group.</span><span class="ja">スペインの親友2人、そしてアメリカの親友2人も、Trip.bff で僕から声をかけたのが始まり。スペインを訪れたとき、彼らは僕を大切に思っていることをしっかり伝えてくれた。みんなで誕生日を祝ってくれて、気にかけてくれて、大勢でいるときも僕の名前を出して輪に入れてくれた。</span></p>
+        <p><span class="en">We still text, and we meet once a year.</span><span class="ja">今もメッセージを送り合い、年に一度は会っている。</span></p>
+        <p class="lesson"><span class="en">I don't just make connections — I keep them.</span><span class="ja">出会いをつくるだけでなく、縁を大切にし続ける。</span></p>
+      </div>
+    </article>
+
+    <article class="chapter" data-lon="101.6" data-lat="3.06" data-name="Monash Malaysia" data-countries="458">
+      <div class="card">
+        <div class="photo"><img src="assets/monash.jpg" alt="Monash University Malaysia campus" width="1000" height="666" loading="lazy"></div>
+        <div class="coord">06 · <span class="en">Malaysia · Monash University · 2026 → now</span><span class="ja">マレーシア · モナシュ大学 · 2026年〜</span></div>
+        <div class="place">Malaysia</div>
+        <h3><span class="en">I left Keio to learn by doing.</span><span class="ja">実践で学ぶために、慶應を辞めた。</span></h3>
+        <p><span class="en">Lectures and report-writing weren't building real-world skills. <strong>I needed to be somewhere challenge is normal</strong> — so I came to Monash, where students build apps, run businesses and invest.</span><span class="ja">講義とレポート中心の学びでは、実践的な力は身につかないと感じた。<strong>挑戦が当たり前の環境に身を置くため</strong>、学生がアプリを作り、ビジネスをし、投資をするのが当たり前の Monash へ。</span></p>
+        <p><span class="en">I don't know yet what business I'll build — but I'm in the right place to find out.</span><span class="ja">どんなビジネスをするかはまだ探している途中。でも、それを見つけるのにふさわしい場所にいる。</span></p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- What I carry -->
+<section class="block" style="padding-bottom: 0;">
+  <div class="wrap reveal">
+    <p class="kicker"><span class="en">What the journey taught me</span><span class="ja">この旅で得たもの</span></p>
+    <div class="carry">
+      <div>
+        <div class="n">01</div>
+        <h4><span class="en">Initiative</span><span class="ja">行動力</span></h4>
+        <p><span class="en">Nobody handed me a global network. I went out and built it — events, apps, cafés, my own groups.</span><span class="ja">誰かが用意してくれるのを待たず、イベント・アプリ・カフェ、そして自分のグループで、世界とのつながりを自分でつくった。</span></p>
+      </div>
+      <div>
+        <div class="n">02</div>
+        <h4><span class="en">Valuing every connection</span><span class="ja">縁を大切にする力</span></h4>
+        <p><span class="en">Friendships that started with one message are still going, years and countries later.</span><span class="ja">一通のメッセージから始まった友情が、国を越えて何年も続いている。</span></p>
+      </div>
+      <div>
+        <div class="n">03</div>
+        <h4><span class="en">Reading people</span><span class="ja">人を思いやり、場を読む力</span></h4>
+        <p><span class="en">Learned by stepping, again and again, into rooms where I could barely speak the language.</span><span class="ja">言葉が十分に通じない場に何度も飛び込む中で身につけた。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section class="block" id="education" style="padding-bottom: 0;">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="kicker"><span class="en">Education</span><span class="ja">学歴</span></p>
+      <h2 class="big"><span class="en">Learning by doing.</span><span class="ja">実践の中で、学ぶ。</span></h2>
+    </div>
+    <div class="edu">
+      <div class="school reveal d1">
+        <div class="pic"><img src="assets/monash.jpg" alt="Monash University Malaysia campus" width="1000" height="666" loading="lazy"></div>
+        <div class="body">
+          <span class="status"><span class="en">Current</span><span class="ja">在学中</span></span>
+          <h3>Monash University Malaysia</h3>
+          <p class="deg">Bachelor of Business and Commerce — <span class="en">Major in Finance</span><span class="ja">ファイナンス専攻</span></p>
+          <p class="when">Feb 2026 – Mar 2029<span class="en"> (expected)</span><span class="ja">（卒業予定）</span></p>
+          <h4><span class="en">What I'm working on</span><span class="ja">取り組んでいること</span></h4>
+          <ul>
+            <li><span class="en">Chose small, hands-on classes over large lectures</span><span class="ja">大人数の講義ではなく、少人数の実践型の授業を選択</span></li>
+            <li><span class="en">Interviewed a CEO</span><span class="ja">企業のCEOにインタビュー</span></li>
+            <li><span class="en">Analyzing real companies</span><span class="ja">実在の企業を分析</span></li>
+            <li><span class="en">Reflecting on my own experiences to test whether I'm putting management skills into practice</span><span class="ja">自分の経験を振り返り、マネジメントスキルを実践できているかを検証</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="school reveal d2">
+        <div class="pic"><img src="assets/keio.webp" alt="Keio University, Mita campus" width="1200" height="630" loading="lazy"></div>
+        <div class="body">
+          <span class="status past"><span class="en">Withdrew</span><span class="ja">中退</span></span>
+          <h3><span class="en">Keio University</span><span class="ja">慶應義塾大学</span></h3>
+          <p class="deg"><span class="en">Faculty of Business and Commerce</span><span class="ja">商学部 商学科</span></p>
+          <p class="when">Apr 2024 – Oct 2024</p>
+          <h4><span class="en">Why I left</span><span class="ja">中退した理由</span></h4>
+          <p class="note"><span class="en">Large lectures and report-writing built my ability to reflect, but not to practice communication and problem-solving. I chose to move to an environment where I could learn by doing.</span><span class="ja">大人数の講義とレポート中心の学びで振り返る力はついたが、コミュニケーション力や課題解決力を実践で磨くことはできなかった。実践の中で学べる環境を選ぶために、中退を決めた。</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Now -->
+<section class="block" id="now">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="kicker"><span class="en">What I'm doing now</span><span class="ja">いま取り組んでいること</span></p>
+      <h2 class="big"><span class="en">Now I pass it on.</span><span class="ja">もらった刺激を、次の誰かへ。</span></h2>
+    </div>
+
+    <div class="feature">
+      <div class="media reveal">
+        <img src="assets/event-poster.jpg" alt="Event poster: 挑戦したい人 in マレーシア" width="1122" height="1402" loading="lazy">
+      </div>
+      <div class="reveal d1">
+        <p class="kicker"><span class="en">Co-organizer · Community event</span><span class="ja">共同主催 · コミュニティイベント</span></p>
+        <h3>挑戦したい人 in マレーシア<br><span class="en" style="color:var(--muted); font-size:.55em; letter-spacing:-.01em;">For Japanese people in Malaysia who want to take on a challenge</span></h3>
+        <p class="body"><span class="en">A gathering where people share their dreams, setbacks and challenges. I love inspiring people and doing something for others — and I know how hard it is to break out of your shell alone.</span><span class="ja">マレーシアにいる日本人が、夢や挫折、挑戦を語り合う場。人を刺激すること、誰かのために何かをすることが好きで、一人で殻を破るのがどれだけ難しいかも知っているから始めた。</span></p>
+        <p class="body"><span class="en">The goal isn't the same for everyone. <strong>Even one step toward your goal is enough</strong> — I want people to leave with courage and others' experiences they can use.</span><span class="ja">ゴールは人それぞれでいい。<strong>一歩でも前に進めたら十分。</strong>勇気や、周りの経験から活かせることを持ち帰ってほしい。</span></p>
+        <blockquote>
+          <span class="en">"Inspired by Kanau's activities, I thought, 'Then I'll try too' — and started creating content myself."</span>
+          <span class="ja">「Kanauの活動に刺激を受けて、『じゃあ自分もやってみよう』とコンテンツ発信を始めた。」</span>
+          <cite><span class="en">— Fellow co-organizer</span><span class="ja">— 共同主催者</span></cite>
+        </blockquote>
+        <div class="meta">
+          <span class="chip"><span class="en">First event held</span><span class="ja">第1回 開催済み</span></span>
+          <span class="chip"><span class="en">Organized by students</span><span class="ja">学生主催</span></span>
+          <span class="chip"><span class="en">Japan × Malaysia</span><span class="ja">日本 × マレーシア</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="minis">
+      <div class="mini ig reveal d1">
+        <div class="label">Instagram · <a href="https://www.instagram.com/_lifewithkanau_/" target="_blank" rel="noopener">@_lifewithkanau_</a></div>
+        <h4><span class="en">Run, gym &amp; motivation</span><span class="ja">ラン・ジム・モチベーション発信</span></h4>
+        <p><span class="en">I share running, training and motivation for anyone who wants to start — but hasn't taken the first step yet.</span><span class="ja">ランニングやトレーニング、そして「始めたいけど一歩が出ない」人へのモチベーションを発信している。</span></p>
+      </div>
+      <div class="mini reveal d2">
+        <div class="label"><span class="en">Life</span><span class="ja">日常</span></div>
+        <h4><span class="en">Gym &amp; running club</span><span class="ja">ジムとランニングクラブ</span></h4>
+        <p><span class="en">Training is my daily routine — and in the running club, every run is another chance to meet someone new.</span><span class="ja">トレーニングは毎日の習慣。ランニングクラブでは、走るたびに新しい出会いがある。</span></p>
+      </div>
+      <div class="mini reveal d3">
+        <div class="label"><span class="en">Past</span><span class="ja">過去の経験</span></div>
+        <h4><span class="en">Online English tutor</span><span class="ja">オンライン英語講師</span></h4>
+        <p><span class="en">The language I once struggled with, I taught. My students' life stories reminded me why I love meeting people.</span><span class="ja">かつて苦戦した英語を、教える側に。生徒の人生の話を聞くたびに、人と出会うことが好きだと実感した。</span></p>
+      </div>
+    </div>
+
+    <div class="glance reveal">
+      <div>
+        <div class="k"><span class="en">Languages</span><span class="ja">言語</span></div>
+        <div class="v"><span class="en">Japanese (native)<br>English (fluent)</span><span class="ja">日本語（ネイティブ）<br>英語（ビジネス・日常会話）</span></div>
+      </div>
+      <div>
+        <div class="k"><span class="en">Based in</span><span class="ja">拠点</span></div>
+        <div class="v"><span class="en">Malaysia<br><small>From Himeji, Japan</small></span><span class="ja">マレーシア<br><small>兵庫県姫路市出身</small></span></div>
+      </div>
+      <div>
+        <div class="k"><span class="en">Interests</span><span class="ja">興味</span></div>
+        <div class="v"><span class="en">Business · Finance<br>Running · Gym · Meeting people</span><span class="ja">ビジネス・ファイナンス<br>ランニング・ジム・人との出会い</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="block contact" id="contact" style="padding-top: 0;">
+  <div class="wrap reveal">
+    <p class="kicker"><span class="en">Let's connect</span><span class="ja">つながりましょう</span></p>
+    <h2 class="big"><span class="en">Your story could be<br>my next chapter.</span><span class="ja">あなたとの出会いが、<br>次の章になる。</span></h2>
+    <p class="sub"><span class="en">Open to internships, projects and new conversations.</span><span class="ja">インターン、プロジェクト、新しい出会い、いつでも歓迎です。</span></p>
+    <div class="btns">
+      <a class="btn primary" href="https://www.linkedin.com/in/kanau-takahashi" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+      <a class="btn ghost" href="https://www.instagram.com/_lifewithkanau_/" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        Instagram
+      </a>
+      <a class="btn ghost" href="mailto:kanau1515dan03@icloud.com">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        <span class="en">Email me</span><span class="ja">メールする</span>
+      </a>
+    </div>
+    <p class="email-text">kanau1515dan03@icloud.com</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Kanau Takahashi</span>
+    <span>Himeji → Tokyo → Malaysia</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+<script src="assets/world.js"></script>
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Language toggle (default English) ----------
+  function setLang(lang) {
+    root.setAttribute('data-lang', lang);
+    root.setAttribute('lang', lang);
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    });
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+    updateStatement();
+  }
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    b.addEventListener('click', function () { setLang(b.dataset.setLang); });
+  });
+
+  // ---------- Split statement into words / characters ----------
+  document.querySelectorAll('[data-split]').forEach(function (p) {
+    var mode = p.dataset.split;
+    function wrap(node) {
+      Array.from(node.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var parts = mode === 'words' ? n.textContent.split(/(\s+)/) : Array.from(n.textContent);
+          var frag = document.createDocumentFragment();
+          parts.forEach(function (t) {
+            if (!t) return;
+            if (/^\s+$/.test(t)) { frag.appendChild(document.createTextNode(t)); return; }
+            var s = document.createElement('span');
+            s.className = 'w' + (node.classList && node.classList.contains('hl') ? ' hl' : '');
+            s.textContent = t;
+            frag.appendChild(s);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) { wrap(n); }
+      });
+    }
+    wrap(p);
+  });
+
+  var statement = document.getElementById('statement');
+  function updateStatement() {
+    var p = statement.querySelector('p.' + root.getAttribute('data-lang'));
+    if (!p) return;
+    var words = p.querySelectorAll('.w');
+    if (reduce) { words.forEach(function (w) { w.classList.add('on'); }); return; }
+    var r = statement.getBoundingClientRect();
+    var total = statement.offsetHeight - window.innerHeight;
+    var prog = Math.min(1, Math.max(0, -r.top / (total * 0.8)));
+    var n = Math.round(prog * words.length);
+    words.forEach(function (w, i) { w.classList.toggle('on', i < n); });
+  }
+
+  // ---------- Globe ----------
+  var hasGlobe = window.d3 && window.topojson && window.WORLD;
+  var land, borders, countries, graticule;
+  if (hasGlobe) {
+    land = topojson.feature(WORLD, WORLD.objects.land);
+    borders = topojson.mesh(WORLD, WORLD.objects.countries, function (a, b) { return a !== b; });
+    countries = topojson.feature(WORLD, WORLD.objects.countries).features;
+    graticule = d3.geoGraticule10();
+  }
+  var countryById = {};
+  if (hasGlobe) countries.forEach(function (c) { countryById[+c.id] = c; });
+
+  function setupCanvas(canvas) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = canvas.clientWidth, h = canvas.clientHeight;
+    canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+    var ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx: ctx, w: w, h: h };
+  }
+
+  // o: { cx, cy, r, center:[lon,lat], highlight:[ids], arcs:[{a,b,t}], markers:[{p,label,main}], dim }
+  function drawGlobe(c, o) {
+    var ctx = c.ctx;
+    ctx.clearRect(0, 0, c.w, c.h);
+    var proj = d3.geoOrthographic().translate([o.cx, o.cy]).scale(o.r)
+      .rotate([-o.center[0], -o.center[1]]).clipAngle(90).precision(0.5);
+    var path = d3.geoPath(proj, ctx);
+
+    // atmosphere glow
+    var g = ctx.createRadialGradient(o.cx, o.cy, o.r * 0.92, o.cx, o.cy, o.r * 1.35);
+    g.addColorStop(0, 'rgba(31,79,163,' + (0.22 * o.dim) + ')');
+    g.addColorStop(1, 'rgba(31,79,163,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(o.cx, o.cy, o.r * 1.35, 0, Math.PI * 2); ctx.fill();
+
+    // ocean
+    var oc = ctx.createRadialGradient(o.cx - o.r * 0.35, o.cy - o.r * 0.4, o.r * 0.1, o.cx, o.cy, o.r);
+    oc.addColorStop(0, '#24498f'); oc.addColorStop(1, '#0b1f44');
+    ctx.fillStyle = oc;
+    ctx.beginPath(); path({ type: 'Sphere' }); ctx.fill();
+
+    ctx.beginPath(); path(graticule);
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.08 * o.dim) + ')'; ctx.lineWidth = 0.6; ctx.stroke();
+
+    ctx.beginPath(); path(land);
+    ctx.fillStyle = 'rgba(176,198,236,' + (0.55 * o.dim) + ')'; ctx.fill();
+
+    (o.highlight || []).forEach(function (id) {
+      var f = countryById[id]; if (!f) return;
+      ctx.beginPath(); path(f);
+      ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.fill();
+    });
+
+    ctx.beginPath(); path(borders);
+    ctx.strokeStyle = 'rgba(11,31,68,0.45)'; ctx.lineWidth = 0.5; ctx.stroke();
+
+    ctx.beginPath(); path({ type: 'Sphere' });
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.22 * o.dim) + ')'; ctx.lineWidth = 1; ctx.stroke();
+
+    // travel arcs
+    (o.arcs || []).forEach(function (arc) {
+      if (arc.t <= 0) return;
+      var interp = d3.geoInterpolate(arc.a, arc.b), pts = [], steps = 64;
+      for (var i = 0; i <= steps * arc.t; i++) pts.push(interp(i / steps));
+      pts.push(interp(arc.t));
+      ctx.beginPath(); path({ type: 'LineString', coordinates: pts });
+      ctx.strokeStyle = 'rgba(143,184,255,0.35)'; ctx.lineWidth = 6; ctx.stroke();
+      ctx.strokeStyle = '#8fb8ff'; ctx.lineWidth = 2; ctx.stroke();
+    });
+
+    // markers (only on the visible hemisphere)
+    var now = performance.now();
+    (o.markers || []).forEach(function (m) {
+      if (d3.geoDistance(m.p, o.center) > Math.PI / 2 - 0.05) return;
+      var xy = proj(m.p);
+      if (m.main) {
+        var pulse = (now % 1800) / 1800;
+        ctx.beginPath(); ctx.arc(xy[0], xy[1], 6 + pulse * 22, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(143,184,255,' + (1 - pulse) * 0.9 + ')'; ctx.lineWidth = 2; ctx.stroke();
+      }
+      ctx.beginPath(); ctx.arc(xy[0], xy[1], m.main ? 6 : 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = m.main ? '#fff' : '#8fb8ff'; ctx.fill();
+      if (m.main) { ctx.lineWidth = 2.5; ctx.strokeStyle = '#1f4fa3'; ctx.stroke(); }
+      if (m.label) {
+        ctx.font = '600 13px Inter, sans-serif';
+        ctx.lineJoin = 'round'; ctx.lineWidth = 4; ctx.strokeStyle = '#ffffff';
+        ctx.strokeText(m.label, xy[0] + 14, xy[1] + 4);
+        ctx.fillStyle = '#0b1f44';
+        ctx.fillText(m.label, xy[0] + 14, xy[1] + 4);
+      }
+    });
+  }
+
+  // ---------- Hero globe: the Earth rising behind the name ----------
+  var heroCanvas = document.getElementById('heroGlobe'), heroC;
+  var heroLon = 134.69;
+  function drawHero() {
+    if (!hasGlobe) return;
+    var r = Math.max(heroC.w * 0.62, heroC.h * 0.75);
+    drawGlobe(heroC, {
+      cx: heroC.w / 2, cy: heroC.h + r * 0.62, r: r,
+      center: [heroLon, 20], dim: 0.9,
+      highlight: [392], markers: [{ p: [134.69, 34.82], main: true }]
+    });
+  }
+
+  // ---------- Story globe: driven by scroll position ----------
+  var story = document.getElementById('story');
+  var storyCanvas = document.getElementById('storyGlobe'), storyC;
+  var chapters = Array.from(document.querySelectorAll('.chapter'));
+  var stops = chapters.map(function (ch) {
+    return {
+      p: [+ch.dataset.lon, +ch.dataset.lat],
+      name: ch.dataset.name,
+      ids: ch.dataset.countries.split(',').map(Number),
+      extra: ch.dataset.extra ? ch.dataset.extra.split(';').map(function (s) { return s.split(',').map(Number); }) : []
+    };
+  });
+  var progEl = document.getElementById('progress');
+  chapters.forEach(function () { progEl.appendChild(document.createElement('i')); });
+  var dots = Array.from(progEl.children);
+  var activeIdx = -1;
+
+  function smooth(t) { return t * t * (3 - 2 * t); }
+  function storyProgress() {
+    var r = story.getBoundingClientRect();
+    return Math.min(stops.length - 1, Math.max(0, -r.top / window.innerHeight));
+  }
+
+  function drawStory() {
+    var p = storyProgress();
+    var i = Math.min(stops.length - 2, Math.floor(p));
+    var f = p - i;
+    // Hold on each place, then travel in the middle of the scroll between chapters
+    var t = smooth(Math.min(1, Math.max(0, (f - 0.35) / 0.5)));
+    var a = stops[i], b = stops[i + 1];
+    var dist = d3.geoDistance(a.p, b.p);
+    var center = d3.geoInterpolate(a.p, b.p)(t);
+    center = [center[0], center[1] * 0.8];
+
+    var mobile = storyC.w <= 860;
+    var baseR = mobile ? Math.min(storyC.w * 0.3, storyC.h * 0.14) : Math.min(storyC.w * 0.26, storyC.h * 0.38);
+    var r = baseR * (1 - 0.22 * Math.sin(Math.PI * t) * Math.min(1, dist / 1.5));
+    var cx = mobile ? storyC.w / 2 : storyC.w * 0.3;
+    var cy = mobile ? storyC.h * 0.19 : storyC.h * 0.52;
+
+    var cur = t < 0.5 ? i : i + 1;
+    var highlight = [];
+    stops.slice(0, cur + 1).forEach(function (s) { highlight = highlight.concat(s.ids); });
+
+    var arcs = [];
+    for (var k = 0; k < stops.length - 1; k++) {
+      arcs.push({ a: stops[k].p, b: stops[k + 1].p, t: k < i ? 1 : (k === i ? t : 0) });
+    }
+    var markers = [];
+    stops.forEach(function (s, k) {
+      if (k <= cur) markers.push({ p: s.p, main: k === cur, label: k === cur ? s.name : '' });
+      if (k === cur) s.extra.forEach(function (e) { markers.push({ p: e }); });
+    });
+
+    drawGlobe(storyC, { cx: cx, cy: cy, r: r, center: center, dim: 1, highlight: highlight, arcs: arcs, markers: markers });
+
+    var ai = Math.round(p);
+    if (ai !== activeIdx) {
+      activeIdx = ai;
+      chapters.forEach(function (ch, j) { ch.classList.toggle('active', j === ai); });
+      dots.forEach(function (d, j) { d.classList.toggle('on', j === ai); });
+    }
+  }
+
+  // ---------- Hero text fade on scroll ----------
+  var heroInner = document.getElementById('heroInner');
+  function updateHeroText() {
+    if (reduce) return;
+    var t = Math.min(1, window.scrollY / (window.innerHeight * 0.8));
+    heroInner.style.opacity = String(1 - t);
+    heroInner.style.transform = 'scale(' + (1 - t * 0.12) + ') translateY(' + (t * -40) + 'px)';
+  }
+
+  function inView(el) {
+    var r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight;
+  }
+
+  function resize() {
+    if (!hasGlobe) return;
+    heroC = setupCanvas(heroCanvas);
+    storyC = setupCanvas(storyCanvas);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // One animation loop: draws only what is on screen
+  function loop() {
+    updateHeroText();
+    updateStatement();
+    if (hasGlobe) {
+      if (inView(heroCanvas)) { if (!reduce) heroLon -= 0.04; drawHero(); }
+      if (inView(story)) drawStory();
+    } else {
+      // Without the globe, still mark the active chapter
+      var p = Math.round(Math.min(chapters.length - 1, Math.max(0, -story.getBoundingClientRect().top / window.innerHeight)));
+      chapters.forEach(function (ch, j) { ch.classList.toggle('active', j === p); });
+    }
+    requestAnimationFrame(loop);
+  }
+
+  // ---------- Reveal on scroll ----------
+  var revObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      revObs.unobserve(e.target);
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(function (el) { revObs.observe(el); });
+
+  // ---------- Init ----------
+  var saved = null;
+  try { saved = localStorage.getItem('lang'); } catch (e) {}
+  setLang(saved === 'ja' ? 'ja' : 'en');
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
